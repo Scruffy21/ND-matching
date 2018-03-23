@@ -7,7 +7,7 @@ const game = {
     gamefinished = false,
 }
 
-const icons = ["tiger", "hippo", "lion", "monkey", "zebra", "crocodile", "antelope", "elephant"];
+const icons = ["ant", "deer", "hippo", "mosquito", "snail", "bear", "dinosaur", "horse", "panda", "spider", "beaver", "dolphin", "kangaroo", "pig", "stork", "bee", "duck", "ladybird", "rabbit", "turtle", "butterfly", "elephant", "leopard", "rhinoceros", "whale", "chicken", "frog", "lion", "seahorse", "wolf", "cow", "giraffe", "llama", "shark", "crab", "gorilla", "monkey", "sheep"];
 
 cards
 
