@@ -32,7 +32,9 @@ function randomiser(icons) {
     }
 }
 
+
 function card(source) { 
     this.source = source;
+    this.open = false;
 }
 

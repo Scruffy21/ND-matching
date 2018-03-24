@@ -1,11 +1,13 @@
 html, body {
     padding: 0;
+    margin: 0;
     height: 100%;
     width: 100%;
 }
 
 body {
-    background: url(images/backgrounds/jungle1_small.jpg);
+    background: url(../images/backgrounds/jungle3_comp.png) no-repeat fixed;
+    background-size: cover;
 }
 
 main {
@@ -16,17 +18,47 @@ main {
     width: 95%;
     max-width: 100vh;
     margin: 0 auto;
-    background-color: skyblue;
+    /* background-color: rgb(14, 224, 179); */
 }
 
 .card {
-    flex-basis: 30%;
+    width: 23%;
+    /* border: 1px solid black; */
+    border-radius: 5px;
+    perspective: 500px;
+    transform-style: preserve-3d;
+    transition: transform 1s;
+    position: relative;
+}
+
+.face {
+    backface-visibility: hidden;
+    border-radius: 10px;
 }
 
 .card-front {
+    background: rgb(153, 226, 44);
+    transform: rotateY( 180deg );
+}
 
+.card-front img {
+    display: block;
+    width: 100%;
+    /* height: 100%; */
+    /* object-fit: cover; */
 }
 
 .card-back {
-    background-color: rgb(255, 255, 107);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* background-color: rgb(255, 255, 107); */
+    background: url(../images/backgrounds/back2.jpg) no-repeat;
+    background-size: cover;
 }
+
+.card.flipped {
+    transform: rotateY( 180deg );
+  }
