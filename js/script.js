@@ -19,7 +19,7 @@ function randomiser(icons) {
     let chosen = [];
     const len = iconsCopy.length;
     for (let i = 0; i < game.cardsAll / 2; i++) {
-        chosen.push(iconsCopy.splice(randIndex(len-i), 1)[0])
+        chosen.push(iconsCopy.splice(randIndex(len - i), 1)[0]);
     }
     chosen = chosen.concat(chosen);
     const shuffled = [];

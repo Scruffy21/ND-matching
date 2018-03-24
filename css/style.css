@@ -1,0 +1,32 @@
+html, body {
+    padding: 0;
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    background: url(images/backgrounds/jungle1_small.jpg);
+}
+
+main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-content: space-around;
+    width: 95%;
+    max-width: 100vh;
+    margin: 0 auto;
+    background-color: skyblue;
+}
+
+.card {
+    flex-basis: 30%;
+}
+
+.card-front {
+
+}
+
+.card-back {
+    background-color: rgb(255, 255, 107);
+}
