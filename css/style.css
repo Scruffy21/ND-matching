@@ -8,26 +8,49 @@ html, body {
 body {
     background: url(../images/backgrounds/jungle3_comp.png) no-repeat fixed;
     background-size: cover;
+    font-family: 'Open Sans', sans-serif;
+}
+
+h1 {
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.info-panel {
+    width: 100%;
+    font-size: 1.5em;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+}
+
+.pear {
+    height: 1.5em;
 }
 
 main {
+    width: 95%;
+    max-width: 100vh;
+    margin: 0 auto;
+}
+
+.game {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
     align-content: space-around;
-    width: 95%;
-    max-width: 100vh;
-    margin: 0 auto;
-    /* background-color: rgb(14, 224, 179); */
+    background-color: rgba(0,60,40,0.6);
+    border-radius: 2%;
 }
 
 .card {
-    width: 23%;
+    width: 20%;
     /* border: 1px solid black; */
+    margin: 2.5%;
     border-radius: 5px;
     perspective: 500px;
     transform-style: preserve-3d;
-    transition: transform 1s;
+    transition: transform 0.4s;
     position: relative;
 }
 
@@ -55,7 +78,7 @@ main {
     width: 100%;
     height: 100%;
     /* background-color: rgb(255, 255, 107); */
-    background: url(../images/backgrounds/back2.jpg) no-repeat;
+    background: url(../images/backgrounds/back4.png) no-repeat;
     background-size: cover;
 }
 
