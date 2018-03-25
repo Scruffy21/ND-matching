@@ -27,6 +27,9 @@ const game = {
         this.time = 0;
         this.cards = [];
         this.populate();
+        paintMoves();
+        paintStars();
+        paintTime();
     },
     update: function () {
         if (game.moves === 10) {
@@ -41,11 +44,14 @@ const game = {
         if (this.cardsOpen === this.cardsAll) { 
             gameWon();
         }
+        paintMoves();
 
     }
 }
 
-
+//stores elements that will need to be updated as the game progresses
+// such as timer, rating, moves counter and I think that's it.
+const paintJob = {};
 
 //first get the required number of unique icons
 //then add pairs to these icons
@@ -81,12 +87,10 @@ function card(source, id) {
     }
     this.close = function () { 
         this.isOpen = false;
-        game.cardsOpen++;
+        game.cardsOpen--;
         game.nodeList[this.id].classList.remove("flip");
     },
-    this.compare = function (otherCard) { 
-        console.log(this);
-        console.log(otherCard);
+    this.compare = function (otherCard) {
         return this.source === otherCard.source;
     }
 }
@@ -98,6 +102,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     game.populate();
     document.querySelector(".game").addEventListener("click", play);
+
+    paintJob["starCont"] = document.querySelector(".stars");
+    paintJob["timer"] = document.querySelector(".timer");
+    paintJob["moveCounter"] = document.querySelector(".moves");
 });
 
 function play(event) { 
@@ -111,6 +119,7 @@ function play(event) {
             game.comparingFinished = false;
             curCard.open();
             game.moves++;
+            game.update();
             if (curCard.compare(game.lastCard)) {
                 game.comparingFinished = true;
             }
@@ -141,15 +150,20 @@ function paintStars() {
 }
 
 function paintMoves() { 
-
+    paintJob.moveCounter.textContent = "moves: " + game.moves;
 }
 
-function paintTime() { 
-
+function paintTime() {
+    const seconds = ("0" + game.time % 60).slice(-2);
+    const minutes = ("0" + Math.floor(game.time / 60)).slice(-2);
+    paintJob.timer.textContent = minutes + ":" + seconds;
 }
 
 
-
+const timer = setInterval(function () {
+    game.time++;
+    paintTime();
+}, 1000);
 
 
 
