@@ -1,6 +1,7 @@
 const game = {
     cardsOpen: 0,
     cardsAll: 16,
+    waitTime: 700,
     started: false,
     moves: 0,
     stars: 3,
@@ -20,26 +21,29 @@ const game = {
             // faces[1].id = "card-" + index;
         });
     },    
-    reset: function () { 
-        closeCards(this.cards);
-        this.moves = 0;
-        this.stars = 3;
-        this.time = 0;
-        this.cards = [];
-        this.populate();
+    reset: function () {
+        window.clearInterval(game.timer);
+        game.started = false;
+        closeCards(game.cards);
+        game.moves = 0;
+        game.stars = 3;
+        game.time = 0;
+        game.cards = [];
+        game.populate();
         paintMoves();
         paintStars();
         paintTime();
     },
     update: function () {
         if (game.moves === 10) {
+            hideStar(game.stars);
             game.stars--;
-            paintStars();
         }
 
-        else if (game.moves === 20) { 
+        else if (game.moves === 20) {
+            hideStar(game.stars);
             game.stars--;
-            paintStars();
+
         }
         if (this.cardsOpen === this.cardsAll) { 
             gameWon();
@@ -85,13 +89,20 @@ function card(source, id) {
         game.cardsOpen++;
         game.nodeList[this.id].classList.add("flip");
     }
-    this.close = function () { 
+    this.close = function () {
         this.isOpen = false;
         game.cardsOpen--;
         game.nodeList[this.id].classList.remove("flip");
     },
     this.compare = function (otherCard) {
         return this.source === otherCard.source;
+    },
+    this.getNode = function () { 
+        return game.nodeList[this.id]
+    },
+    this.matched = function () { 
+        this.getNode().classList.add("card-matched");
+        this.getNode().firstElementChild.classList.add("front-matched");
     }
 }
 
@@ -102,14 +113,25 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     game.populate();
     document.querySelector(".game").addEventListener("click", play);
+    document.querySelector(".reset").addEventListener("click", game.reset);
+    document.querySelector(".play-again").addEventListener("click", function () {
+        paintJob.modal.style.display = "none";
+        game.reset();
+    });
 
     paintJob["starCont"] = document.querySelector(".stars");
     paintJob["timer"] = document.querySelector(".timer");
     paintJob["moveCounter"] = document.querySelector(".moves");
+    paintJob["modal"] = document.querySelector(".success-modal");
+    paintJob["modalStats"] = document.querySelector(".modal-stats");
 });
 
 function play(event) { 
     if (event.target.classList.contains("card-back")) {
+        if (!game.started) {
+            game.started = true;
+            startTimer();
+        }
         const curCard = game.cards[event.target.parentElement.id.slice(5)];
         if (game.cardsOpen % 2 === 0 && game.comparingFinished) {
             game.lastCard = curCard;
@@ -121,17 +143,23 @@ function play(event) {
             game.moves++;
             game.update();
             if (curCard.compare(game.lastCard)) {
-                game.comparingFinished = true;
+                setTimeout(function () {
+                    game.comparingFinished = true;
+                    curCard.matched();
+                    game.lastCard.matched();
+                }, game.waitTime);
+
             }
             else { 
                 setTimeout(function () {
-                    closeCards([curCard, game.lastCard]);
-                    game.comparingFinished = true;  
-                }, 700)
+                    // closeCards([curCard, game.lastCard]);
+                    curCard.close();
+                    game.lastCard.close();
+                    game.comparingFinished = true;
+                }, game.waitTime);
 
             }
         }
-
     }
 }
 
@@ -139,14 +167,24 @@ function closeCards(arr) {
     arr.forEach(function (card) {
         card.close();
     })
+    game.cardsOpen = 0; //hack because can't be bothered to pass only the cards that need closing
 }
 
 function gameWon() { 
-
+    paintJob.modal.style.display = "flex";
+    paintJob.modalStats.textContent = "You made " + game.moves + " move(s), took " + game.time + " second(s), earned " + game.stars + " generic achievement point(s)."
 }
 
 function paintStars() { 
+    const stars = paintJob.starCont.children;
+    for (let i = 0; i < stars.length; i++) {
+        stars[i].style.display = "inline-block";
+    }
+}
 
+function hideStar(index) {
+    const stars = paintJob.starCont.children;
+    stars[index - 1].style.display = "none";
 }
 
 function paintMoves() { 
@@ -160,10 +198,12 @@ function paintTime() {
 }
 
 
-const timer = setInterval(function () {
-    game.time++;
-    paintTime();
-}, 1000);
+function startTimer() {
+    game.timer = window.setInterval(function () {
+        game.time++;
+        paintTime();
+    }, 1000)
+}    
 
 
 
