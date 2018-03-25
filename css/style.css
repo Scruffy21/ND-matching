@@ -94,7 +94,7 @@ main {
     background-size: cover;
 }
 
-.card.flipped {
+.card.flip {
     transform: rotateY( 180deg );
   }
 

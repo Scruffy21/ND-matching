@@ -1,14 +1,16 @@
 const game = {
     cardsOpen: 0,
     cardsAll: 16,
+    started: false,
     moves: 0,
-    pears: 3,
+    stars: 3,
     time: 0,
-    comparingFinished: false,
+    comparingFinished: true,
     gamefinished: false,
     nodeList: [],
     cards: [],
-    icons: ["ant", "deer", "hippo", "mosquito", "snail", "bear", "dinosaur", "horse", "panda", "spider", "beaver", "dolphin", "kangaroo", "pig", "stork", "bee", "duck", "ladybird", "rabbit", "turtle", "butterfly", "elephant", "leopard", "rhinoceros", "whale", "chicken", "frog", "lion", "seahorse", "wolf", "cow", "giraffe", "llama", "shark", "crab", "gorilla", "monkey", "sheep"],
+    lastCard: null,
+    icons: ["ant", "deer", "hippo", "mosquito", "snail", "bear", "dinosaur", "horse", "panda", "spider", "beaver", "dolphin", "kangaroo", "pig", "stork", "bee", "duck", "ladybird", "rabbit", "turtle", "butterfly", "elephant", "leopard", "rhinoceros", "whale", "chicken", "frog", "lion", "seahorse", "wolf", "cow", "giraffe", "llama", "shark", "crab", "gorilla", "sheep"],
     populate: function () {
         const selection = randomiser(game.icons);
         selection.forEach(function (el, index) {
@@ -19,13 +21,28 @@ const game = {
         });
     },    
     reset: function () { 
-        this.cardsOpen = 0;
+        closeCards(this.cards);
         this.moves = 0;
-        this.pears = 3;
+        this.stars = 3;
         this.time = 0;
         this.cards = [];
         this.populate();
     },
+    update: function () {
+        if (game.moves === 10) {
+            game.stars--;
+            paintStars();
+        }
+
+        else if (game.moves === 20) { 
+            game.stars--;
+            paintStars();
+        }
+        if (this.cardsOpen === this.cardsAll) { 
+            gameWon();
+        }
+
+    }
 }
 
 
@@ -56,7 +73,22 @@ function randomiser(icons) {
 function card(source, id) { 
     this.source = source;
     this.id = id;
-    this.open = false;
+    this.isOpen = false;
+    this.open = function () {
+        this.isOpen = true;
+        game.cardsOpen++;
+        game.nodeList[this.id].classList.add("flip");
+    }
+    this.close = function () { 
+        this.isOpen = false;
+        game.cardsOpen++;
+        game.nodeList[this.id].classList.remove("flip");
+    },
+    this.compare = function (otherCard) { 
+        console.log(this);
+        console.log(otherCard);
+        return this.source === otherCard.source;
+    }
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -65,13 +97,88 @@ document.addEventListener("DOMContentLoaded", function () {
         game.nodeList.push(cards[i]);
     }
     game.populate();
-    document.querySelector(".game").addEventListener("click", function () { 
-
-    });
+    document.querySelector(".game").addEventListener("click", play);
 });
 
-function handleClick(event) { 
-    if (event.target.classList.contains("card-back")) { 
-        event.target.parentElement.id
+function play(event) { 
+    if (event.target.classList.contains("card-back")) {
+        const curCard = game.cards[event.target.parentElement.id.slice(5)];
+        if (game.cardsOpen % 2 === 0 && game.comparingFinished) {
+            game.lastCard = curCard;
+            curCard.open();
+        }
+        else if (game.cardsOpen % 2 === 1) { 
+            game.comparingFinished = false;
+            curCard.open();
+            game.moves++;
+            if (curCard.compare(game.lastCard)) {
+                game.comparingFinished = true;
+            }
+            else { 
+                setTimeout(function () {
+                    closeCards([curCard, game.lastCard]);
+                    game.comparingFinished = true;  
+                }, 700)
+
+            }
+        }
+
     }
+}
+
+function closeCards(arr) { 
+    arr.forEach(function (card) {
+        card.close();
+    })
+}
+
+function gameWon() { 
+
+}
+
+function paintStars() { 
+
+}
+
+function paintMoves() { 
+
+}
+
+function paintTime() { 
+
+}
+
+
+
+
+
+
+//polyfill for IE
+// https://tc39.github.io/ecma262/#sec-array.prototype.includes
+if (!Array.prototype.includes) {
+    Object.defineProperty(Array.prototype, 'includes', {
+      value: function(searchElement, fromIndex) {
+  
+        if (this == null) {
+          throw new TypeError('"this" is null or not defined');
+        }
+        var o = Object(this);
+        var len = o.length >>> 0;
+        if (len === 0) {
+          return false;
+        }
+        var n = fromIndex | 0;
+        var k = Math.max(n >= 0 ? n : len - Math.abs(n), 0);
+        function sameValueZero(x, y) {
+          return x === y || (typeof x === 'number' && typeof y === 'number' && isNaN(x) && isNaN(y));
+        }
+        while (k < len) {
+          if (sameValueZero(o[k], searchElement)) {
+            return true;
+          }
+          k++;
+        }
+        return false;
+      }
+    });
 }
