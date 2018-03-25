@@ -11,21 +11,33 @@ body {
     font-family: 'Open Sans', sans-serif;
 }
 
+header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    color: #262626;
+    background-color: rgba(185,224,238,0.6);
+    font-size: 1.2em;
+}
+
 h1 {
+    margin: 0;
     text-align: center;
     text-transform: uppercase;
+    font-size: 1rem;
 }
 
 .info-panel {
-    width: 100%;
-    font-size: 1.5em;
+    /* width: 100%; */
+    font-size: 1em;
+    flex-grow: 1;
     display: flex;
     justify-content: space-around;
     align-items: flex-end;
 }
 
 .pear {
-    height: 1.5em;
+    height: 1em;
 }
 
 main {
@@ -85,3 +97,8 @@ main {
 .card.flipped {
     transform: rotateY( 180deg );
   }
+
+
+/* MEDIA QUERIES */
+
+/* dekstop */
