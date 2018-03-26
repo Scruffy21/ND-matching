@@ -12,6 +12,7 @@ const game = {
     cards: [],
     lastCard: null,
     icons: ["ant", "deer", "hippo", "mosquito", "snail", "bear", "dinosaur", "horse", "panda", "spider", "beaver", "dolphin", "kangaroo", "pig", "stork", "bee", "duck", "ladybird", "rabbit", "turtle", "butterfly", "elephant", "leopard", "rhinoceros", "whale", "chicken", "frog", "lion", "seahorse", "wolf", "cow", "giraffe", "llama", "shark", "crab", "gorilla", "sheep"],
+    // randomise the icons and put them inside the cards
     populate: function () {
         const selection = randomiser(game.icons);
         selection.forEach(function (el, index) {
@@ -20,9 +21,9 @@ const game = {
             game.nodeList[index].id = "card-" + index;
             // faces[1].id = "card-" + index;
         });
-    },    
+    },
+    // resets game properties to initial and repaints them on screen. also closes all cards.
     reset: function () {
-        window.clearInterval(game.timer);
         game.started = false;
         closeCards(game.cards);
         game.moves = 0;
@@ -34,6 +35,8 @@ const game = {
         paintStars();
         paintTime();
     },
+    // checks if a certain number of moves was made, if so, reduces star rating
+    // also checks if all the cards are open. if so, calls the gameWon function
     update: function () {
         if (game.moves === 10) {
             hideStar(game.stars);
@@ -45,13 +48,13 @@ const game = {
             game.stars--;
 
         }
-        if (this.cardsOpen === this.cardsAll) { 
+        if (this.cardsOpen === this.cardsAll) {
             gameWon();
         }
         paintMoves();
 
     }
-}
+};
 
 //stores elements that will need to be updated as the game progresses
 // such as timer, rating, moves counter and I think that's it.
@@ -74,12 +77,12 @@ function randomiser(icons) {
     }
     return shuffled;
     function randIndex(range) { 
-        return Math.floor(Math.random() * range)
+        return Math.floor(Math.random() * range);
     }
 }
 
 
-
+//card object creator
 function card(source, id) { 
     this.source = source;
     this.id = id;
@@ -88,22 +91,24 @@ function card(source, id) {
         this.isOpen = true;
         game.cardsOpen++;
         game.nodeList[this.id].classList.add("flip");
-    }
+    };
     this.close = function () {
         this.isOpen = false;
         game.cardsOpen--;
         game.nodeList[this.id].classList.remove("flip");
-    },
+    };
     this.compare = function (otherCard) {
         return this.source === otherCard.source;
-    },
-    this.getNode = function () { 
-        return game.nodeList[this.id]
-    },
-    this.matched = function () { 
+    };
+    //get the node this card is related to
+    this.getNode = function () {
+        return game.nodeList[this.id];
+    };
+    //add 'matched' classes to a card and its front
+    this.matched = function () {
         this.getNode().classList.add("card-matched");
         this.getNode().firstElementChild.classList.add("front-matched");
-    }
+    };
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -126,17 +131,22 @@ document.addEventListener("DOMContentLoaded", function () {
     paintJob["modalStats"] = document.querySelector(".modal-stats");
 });
 
-function play(event) { 
+//main game function. reacts to user clicks
+function play(event) {
+    //react only if the back of a card was clicked
     if (event.target.classList.contains("card-back")) {
         if (!game.started) {
             game.started = true;
             startTimer();
         }
+        //get the card object formt the cards array
         const curCard = game.cards[event.target.parentElement.id.slice(5)];
+        //if even number of cards open
         if (game.cardsOpen % 2 === 0 && game.comparingFinished) {
             game.lastCard = curCard;
             curCard.open();
         }
+        //if odd number of cards open
         else if (game.cardsOpen % 2 === 1) { 
             game.comparingFinished = false;
             curCard.open();
@@ -163,18 +173,22 @@ function play(event) {
     }
 }
 
+//close an array of cards
 function closeCards(arr) { 
     arr.forEach(function (card) {
         card.close();
-    })
+    });
     game.cardsOpen = 0; //hack because can't be bothered to pass only the cards that need closing
 }
 
-function gameWon() { 
+//display modal and stop timer after game is won
+function gameWon() {
+    window.clearInterval(game.timer);
     paintJob.modal.style.display = "flex";
-    paintJob.modalStats.textContent = "You made " + game.moves + " move(s), took " + game.time + " second(s), earned " + game.stars + " generic achievement point(s)."
+    paintJob.modalStats.textContent = "You made " + game.moves + " move(s), took " + game.time + " second(s), earned " + game.stars + " generic achievement point(s).";
 }
 
+// show the stars after a game is reset
 function paintStars() { 
     const stars = paintJob.starCont.children;
     for (let i = 0; i < stars.length; i++) {
@@ -191,18 +205,19 @@ function paintMoves() {
     paintJob.moveCounter.textContent = "moves: " + game.moves;
 }
 
+// paint the time on screen
 function paintTime() {
     const seconds = ("0" + game.time % 60).slice(-2);
     const minutes = ("0" + Math.floor(game.time / 60)).slice(-2);
     paintJob.timer.textContent = minutes + ":" + seconds;
 }
 
-
+// stars the timer. it's invoked only after clicking on a card
 function startTimer() {
     game.timer = window.setInterval(function () {
         game.time++;
         paintTime();
-    }, 1000)
+    }, 1000);
 }    
 
 
