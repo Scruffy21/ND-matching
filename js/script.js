@@ -24,6 +24,7 @@ const game = {
     },
     // resets game properties to initial and repaints them on screen. also closes all cards.
     reset: function () {
+        window.clearInterval(game.timer);
         game.started = false;
         closeCards(game.cards);
         game.moves = 0;
