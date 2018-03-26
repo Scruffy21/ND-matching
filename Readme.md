@@ -15,6 +15,11 @@
 <h5>Quotes from: </h5>
 <ul>
 <li><em>Westworld</em>, an HBO series</li>
+</ul>
+
+<h5>Browsers</h5>
+<p>The project is intended for modern browsers that support ES6 syntax.</p>
+<p>There is a problem with IE11 that I'm working on. Cards don't show their backside at the moment.</p>
 
 
 
