@@ -7,20 +7,22 @@ A project made for the Udacity Front-End Nanodegree.  A card-matching game.
 ## Current themes: 
 * Animals
 
-## Quotes from: 
-* *Westworld*, an HBO series
-
 ## Browsers
 The project is intended for modern browsers that support ES6 syntax.
 
 There is a problem with IE11 that I'm working on. Cards don't show their backside at the moment.
 
 
+## Credits
 
+#### Quotes from:
+* *Westworld*, an HBO series
 
-#### The project uses icons from https://fontawesome.com, and images from various sites detailed below.
+#### Icons from:
 
-## Image Credits
+[fontawesome](https://fontawesome.com)
+
+#### Images:
 hippo, elephant, dolphin, turtle, butterfly, panda, pear icons by [Visual Pharm](http://icons8.com/)
 
 ladybird by [oxygen-icons](http://www.oxygen-icons.org/)
