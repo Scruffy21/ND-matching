@@ -96,10 +96,11 @@ main {
 
 .card-matched {
     animation: matched 0.5s;
+    background-color: #a6d9f4;
 }
 
 .front-matched {
-    background-color: #a6d9f4;
+    /* background-color: #a6d9f4; */
 }
 
 /* GAME WON MODAL */

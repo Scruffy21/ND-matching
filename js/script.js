@@ -107,8 +107,9 @@ function card(source, id) {
     };
     //add 'matched' classes to a card and its front
     this.matched = function () {
-        this.getNode().classList.add("card-matched");
-        this.getNode().firstElementChild.classList.add("front-matched");
+        // this.getNode().classList.add("card-matched");
+        // this.getNode().firstElementChild.classList.add("front-matched");
+        this.getNode().firstElementChild.classList.add("card-matched");
     };
 }
 
