@@ -35,6 +35,7 @@ const game = {
         paintMoves();
         paintStars();
         paintTime();
+        frontRemoveClass(game.nodeList, "card-matched");
     },
     // checks if a certain number of moves was made, if so, reduces star rating
     // also checks if all the cards are open. if so, calls the gameWon function
@@ -220,7 +221,13 @@ function startTimer() {
         game.time++;
         paintTime();
     }, 1000);
-}    
+}
+
+function frontRemoveClass(arr, className) {
+    arr.forEach(function (cardFront) {
+        cardFront.firstElementChild.classList.remove(className);
+    });
+}
 
 
 

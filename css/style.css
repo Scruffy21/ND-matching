@@ -9,7 +9,16 @@ body {
     background: url(../images/backgrounds/jungle3_comp.png) no-repeat fixed;
     background-size: cover;
     font-family: 'Open Sans', sans-serif;
+    display: flex;
+    /* flex-direction: column; */
+    flex-wrap: wrap;
+    align-content: space-between;
+    /* align-content: center; */
 }
+
+
+/* HEADER */
+
 
 header {
     width: 100%;
@@ -17,18 +26,19 @@ header {
     align-items: center;
     color: #262626;
     background-color: rgba(185,224,238,0.6);
-    font-size: 1.2em;
+    border-radius: 100px;
+    
 }
 
 h1 {
-    margin: 0;
+    font-size: 1em;
+    margin: 0 0 0 1vw;
     text-align: center;
     text-transform: uppercase;
-    font-size: 1rem;
 }
 
 .info-panel {
-    font-size: 1em;
+    font-size: 1.2em;
     flex-grow: 1;
     display: flex;
     justify-content: space-around;
@@ -39,10 +49,11 @@ h1 {
     height: 1em;
 }
 
+
+/* GAME */
+
 main {
-    width: 95%;
-    max-width: 100vh;
-    margin: 0 auto;
+    /* align-self: center; */
 }
 
 .game {
@@ -52,11 +63,13 @@ main {
     align-content: space-around;
     background-color: rgba(0,60,40,0.6);
     border-radius: 2%;
+    box-sizing: border-box;
+    padding: 2%;
 }
 
 .card {
-    width: 20%;
-    margin: 2.5%;
+    width: 21%;
+    margin: 2%;
     border-radius: 5px;
     perspective: 500px;
     transform-style: preserve-3d;
@@ -98,7 +111,9 @@ main {
     background-color: #a6d9f4;
 }
 
+
 /* GAME WON MODAL */
+
 
 .success-modal {
     display: none;
@@ -143,12 +158,35 @@ main {
     margin: 10px;
 }
 
+
 /* ANIMATION */
+
 
 @keyframes matched {
     0% {transform: scale(1) rotateY(180deg);}
     50% {transform: scale(1.2) rotateY(180deg);}
     100% {transform: scale(1) rotateY(180deg);}
+}
+
+
+/* FOOTER */
+
+a:link, 
+a:visited {
+    text-decoration: none;
+    color: blue;
+}
+
+footer {
+    width: 100%;
+    background: #d3ff8c;
+    display: flex;
+}
+
+footer div {
+    box-sizing: border-box;
+    width: 33.33%;
+    padding: 2vw;
 }
 
 /* MEDIA QUERIES */
