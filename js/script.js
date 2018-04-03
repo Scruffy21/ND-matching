@@ -187,8 +187,10 @@ function closeCards(arr) {
 //display modal and stop timer after game is won
 function gameWon() {
     window.clearInterval(game.timer);
-    paintJob.modal.style.display = "flex";
-    paintJob.modalStats.textContent = "You made " + game.moves + " move(s), took " + game.time + " second(s), earned " + game.stars + " generic achievement point(s).";
+    setTimeout(function () {
+        paintJob.modal.style.display = "flex";
+        paintJob.modalStats.textContent = "You made " + game.moves + " move(s), took " + game.time + " second(s), earned " + game.stars + " generic achievement point(s).";
+    }, game.waitTime + 500)
 }
 
 // show the stars after a game is reset
