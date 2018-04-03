@@ -52,6 +52,7 @@ h1 {
 
 .reset {
     padding-right: 2vw;
+    cursor: pointer;
 }
 
 
@@ -80,6 +81,10 @@ main {
     transform-style: preserve-3d;
     transition: transform 0.4s;
     position: relative;
+}
+
+.card:not(.flip) {
+    cursor: pointer;
 }
 
 .face {
